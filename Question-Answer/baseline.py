@@ -1,6 +1,7 @@
 #coding=utf-8
 #! /usr/bin/env python3.4
 
+import sys # add
 
 import numpy as np
 import os
@@ -18,7 +19,7 @@ now = int(time.time())
 timeArray = time.localtime(now)
 timeStamp = time.strftime("%Y%m%d%H%M%S", timeArray)
 
-#print( tf.__version__)
+print( tf.__version__)
 
 # Parameters
 # ==================================================
@@ -48,7 +49,8 @@ tf.flags.DEFINE_boolean("log_device_placement", False, "Log placement of ops on 
 
 
 FLAGS = tf.flags.FLAGS
-FLAGS._parse_flags()
+# FLAGS._parse_flags()
+FLAGS(sys.argv)
 
 
 # Data Preparatopn
@@ -72,6 +74,7 @@ testSet=[("test1",test1List),("test2",test2List),("dev",devList)]
 print("Load done...")
 
 val_file = 'insuranceQA/test1'
+tf.gfile.MakeDirs("log") # add
 precision = 'log/test1.dns'+timeStamp
 
 
@@ -182,7 +185,7 @@ def main():
                     # print( param)
                     param= None
                     DIS_MODEL_FILE="model/pre-trained.model"
-                    param = pickle.load(open(DIS_MODEL_FILE,"rb"))
+                    # param = pickle.load(open(DIS_MODEL_FILE,"rb"))
                     discriminator = Discriminator.Discriminator(
                             sequence_length=FLAGS.max_sequence_length,
                             batch_size=FLAGS.batch_size,
